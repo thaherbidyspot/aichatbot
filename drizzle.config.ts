@@ -8,8 +8,10 @@ config({
 export default defineConfig({
   schema: "./db/schema.ts",
   out: "./lib/drizzle",
-  dialect: "postgresql",
+  dialect: "supabase", // Change dialect to supabase
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.SUPABASE_URL!, // Use SUPABASE_URL instead of POSTGRES_URL
+    // You may also want to include the API key for Supabase
+    apiKey: process.env.SUPABASE_API_KEY!, // Optional: include if needed
   },
 });
