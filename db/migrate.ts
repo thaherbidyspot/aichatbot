@@ -1,19 +1,19 @@
 import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/supabase-js"; // Change this import for Supabase
+import { migrate } from "drizzle-orm/supabase-js/migrator"; // Change this import for Supabase
+import { createClient } from "@supabase/supabase-js"; // Import Supabase client
 
 config({
   path: ".env.local",
 });
 
 const runMigrate = async () => {
-  if (!process.env.POSTGRES_URL) {
-    throw new Error("POSTGRES_URL is not defined");
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_API_KEY) {
+    throw new Error("SUPABASE_URL or SUPABASE_API_KEY is not defined");
   }
 
-  const connection = postgres(process.env.POSTGRES_URL, { max: 1 });
-  const db = drizzle(connection);
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_API_KEY);
+  const db = drizzle(supabase);
 
   console.log("⏳ Running migrations...");
 
